@@ -23,19 +23,27 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
+  await supabase.auth.getUser()
 
-  const isDashboard = request.nextUrl.pathname.startsWith('/dashboard') ||
-    request.nextUrl.pathname.startsWith('/modules') ||
-    request.nextUrl.pathname.startsWith('/assignments') ||
-    request.nextUrl.pathname.startsWith('/progress') ||
-    request.nextUrl.pathname.startsWith('/resources') ||
-    request.nextUrl.pathname.startsWith('/certificate')
+  // Hanya halaman ini yang butuh login
+  const protectedRoutes = [
+    '/dashboard',
+    '/assignments',
+    '/progress',
+    '/certificate',
+  ]
 
-  if (isDashboard && !user) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return NextResponse.redirect(url)
+  const isProtected = protectedRoutes.some(route =>
+    request.nextUrl.pathname.startsWith(route)
+  )
+
+  if (isProtected) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      return NextResponse.redirect(url)
+    }
   }
 
   return supabaseResponse
