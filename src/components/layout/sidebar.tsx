@@ -17,9 +17,11 @@ export default function Sidebar() {
   return (
     <aside className="hidden md:flex flex-col w-56 min-h-screen bg-mdh-dark border-r border-white/10 fixed top-0 left-0 z-40">
       <div className="px-5 py-5 border-b border-white/10">
-        <Link href="/">
-          <span className="font-display font-bold text-mdh-gold text-lg">MDH</span>
-          <p className="text-white/30 text-xs mt-0.5">Ultimate Ads LMS</p>
+        <span className="font-display font-bold text-mdh-gold text-lg">MDH</span>
+        <p className="text-white/30 text-xs mt-0.5">Ultimate Ads LMS</p>
+        <Link href="/"
+          className="inline-flex items-center gap-1.5 mt-3 text-xs text-white/40 hover:text-white transition-colors">
+          ← Back to Homepage
         </Link>
       </div>
 
