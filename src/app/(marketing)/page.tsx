@@ -1,15 +1,15 @@
 import Link from 'next/link'
 
 const LEVELS = [
-  { num: '0', label: 'Orientation',                color: 'bg-mdh-warm border-mdh-border',       text: 'text-mdh-mid' },
-  { num: '1', label: 'Advertising Foundation',     color: 'bg-white border-mdh-border',           text: 'text-mdh-dark' },
-  { num: '2', label: 'Creative Foundation',        color: 'bg-white border-mdh-border',           text: 'text-mdh-dark' },
-  { num: '3', label: 'Meta Ads Foundation',        color: 'bg-meta-light border-meta-blue/20',   text: 'text-meta-dark' },
-  { num: '4', label: 'TikTok Ads Foundation',      color: 'bg-tiktok-black/5 border-tiktok-black/10', text: 'text-mdh-dark' },
-  { num: '5', label: 'Campaign Launch System',     color: 'bg-mdh-blush/40 border-mdh-terra/30', text: 'text-mdh-dark' },
-  { num: '6', label: 'Metrics & Optimization',     color: 'bg-mdh-warm border-mdh-border',       text: 'text-mdh-dark' },
-  { num: '7', label: 'Troubleshooting',            color: 'bg-white border-mdh-border',           text: 'text-mdh-dark' },
-  { num: '8', label: 'Simulation & Graduation',    color: 'bg-mdh-gold/10 border-mdh-gold/30',   text: 'text-mdh-dark' },
+  { num: '0', label: 'Orientation',             color: 'bg-mdh-warm border-mdh-border',        text: 'text-mdh-mid' },
+  { num: '1', label: 'Advertising Foundation',  color: 'bg-white border-mdh-border',            text: 'text-mdh-dark' },
+  { num: '2', label: 'Creative Foundation',     color: 'bg-white border-mdh-border',            text: 'text-mdh-dark' },
+  { num: '3', label: 'Meta Ads Foundation',     color: 'bg-meta-light border-meta-blue/20',    text: 'text-meta-dark' },
+  { num: '4', label: 'TikTok Ads Foundation',   color: 'bg-tiktok-black/5 border-tiktok-black/10', text: 'text-mdh-dark' },
+  { num: '5', label: 'Campaign Launch System',  color: 'bg-mdh-blush/40 border-mdh-terra/30',  text: 'text-mdh-dark' },
+  { num: '6', label: 'Metrics & Optimization',  color: 'bg-mdh-warm border-mdh-border',        text: 'text-mdh-dark' },
+  { num: '7', label: 'Troubleshooting',         color: 'bg-white border-mdh-border',            text: 'text-mdh-dark' },
+  { num: '8', label: 'Simulation & Graduation', color: 'bg-mdh-gold/10 border-mdh-gold/30',    text: 'text-mdh-dark' },
 ]
 
 const OUTCOMES = [
@@ -29,14 +29,10 @@ export default function LandingPage() {
       <nav className="fixed top-0 inset-x-0 z-50 bg-mdh-dark/95 backdrop-blur border-b border-white/10">
         <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
           <span className="font-display font-bold text-mdh-gold text-lg tracking-tight">MDH</span>
-          <div className="flex items-center gap-3">
-            <Link href="/login" className="text-sm text-white/60 hover:text-white transition-colors px-3 py-1.5">
-              Masuk
-            </Link>
-            <Link href="/register" className="text-sm bg-mdh-gold text-mdh-dark font-semibold px-4 py-1.5 rounded-lg hover:opacity-90 transition-opacity">
-              Daftar Sekarang
-            </Link>
-          </div>
+          <Link href="/modules"
+            className="text-sm bg-mdh-gold text-mdh-dark font-semibold px-4 py-1.5 rounded-lg hover:opacity-90 transition-opacity">
+            Mulai Belajar →
+          </Link>
         </div>
       </nav>
 
@@ -58,8 +54,9 @@ export default function LandingPage() {
             Dari nol sampai bisa publish iklan, baca metrics, dan optimasi campaign — Meta Ads & TikTok Ads.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/register" className="bg-mdh-gold text-mdh-dark font-bold px-8 py-3.5 rounded-xl hover:opacity-90 transition-opacity text-sm">
-              Mulai Belajar Gratis →
+            <Link href="/modules"
+              className="bg-mdh-gold text-mdh-dark font-bold px-8 py-3.5 rounded-xl hover:opacity-90 transition-opacity text-sm">
+              Mulai Belajar Sekarang →
             </Link>
             <Link href="/slides/MDH_04_Slide_Materi.html" target="_blank"
               className="border border-white/20 text-white/80 px-8 py-3.5 rounded-xl hover:bg-white/5 transition-colors text-sm">
@@ -109,11 +106,11 @@ export default function LandingPage() {
       {/* CTA */}
       <section className="py-20 px-6 border-t border-white/10 text-center">
         <h2 className="font-display text-3xl font-bold mb-4">Siap mulai?</h2>
-        <p className="text-white/50 text-sm mb-8">Daftar gratis. Mulai dari Level 0, langsung hari ini.</p>
-        <Link href="/register" className="inline-block bg-mdh-gold text-mdh-dark font-bold px-10 py-4 rounded-xl hover:opacity-90 transition-opacity">
-          Daftar Sekarang — Gratis
+        <p className="text-white/50 text-sm mb-8">Langsung akses semua materi — gratis, tanpa perlu daftar.</p>
+        <Link href="/modules"
+          className="inline-block bg-mdh-gold text-mdh-dark font-bold px-10 py-4 rounded-xl hover:opacity-90 transition-opacity">
+          Buka Modul Sekarang
         </Link>
-        <p className="text-white/30 text-xs mt-4">Butuh akses kelas? Hubungi dosen kamu.</p>
       </section>
 
       <footer className="py-8 px-6 border-t border-white/10 text-center text-white/30 text-xs">
