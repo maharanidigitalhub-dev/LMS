@@ -1,0 +1,112 @@
+{
+  "id": "level-3",
+  "level": 3,
+  "title": "Meta Ads Foundation",
+  "description": "Pahami ekosistem Meta, struktur campaign 3 level, dan publish iklan pertamamu.",
+  "modules": [
+    {
+      "id": "meta-ecosystem",
+      "title": "Meta Ads Ecosystem",
+      "description": "Business Manager, Ad Account, struktur Campaign → Ad Set → Ad.",
+      "lessons": [
+        {
+          "id": "meta-ecosystem-01",
+          "title": "Kenapa Meta Ads?",
+          "duration": "10 min",
+          "videoUrl": ""
+        },
+        {
+          "id": "meta-ecosystem-02",
+          "title": "Infrastruktur yang harus disiapkan",
+          "duration": "12 min",
+          "videoUrl": ""
+        },
+        {
+          "id": "meta-ecosystem-03",
+          "title": "Struktur 3 Level: Campaign → Ad Set → Ad",
+          "duration": "15 min",
+          "videoUrl": ""
+        }
+      ],
+      "quiz": {
+        "id": "quiz-meta-ecosystem",
+        "passingScore": 70,
+        "questions": [
+          {
+            "id": "q1",
+            "text": "Apa yang diatur di level Ad Set?",
+            "options": [
+              "Creative (gambar/video) dan headline",
+              "Audience, lokasi, budget, dan placement",
+              "Campaign objective",
+              "Nama campaign"
+            ],
+            "correct": 1
+          },
+          {
+            "id": "q2",
+            "text": "Minimum budget harian Meta Ads di Indonesia adalah?",
+            "options": ["Rp 5.000", "Rp 10.000", "Rp 20.000", "Rp 50.000"],
+            "correct": 2
+          },
+          {
+            "id": "q3",
+            "text": "Apa yang TIDAK BISA diubah setelah campaign dibuat?",
+            "options": ["Budget", "Nama campaign", "Objective", "Audience"],
+            "correct": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "campaign-setup",
+      "title": "Campaign Setup",
+      "description": "Pilih objective, buat campaign, setup Ad Set, dan publish Ad pertama.",
+      "lessons": [
+        {
+          "id": "campaign-setup-01",
+          "title": "6 Campaign Objectives — pilih yang tepat",
+          "duration": "12 min",
+          "videoUrl": ""
+        },
+        {
+          "id": "campaign-setup-02",
+          "title": "Setup Ad Set: Audience & Targeting",
+          "duration": "18 min",
+          "videoUrl": ""
+        },
+        {
+          "id": "campaign-setup-03",
+          "title": "Level Ad: Creative, Copy & CTA",
+          "duration": "15 min",
+          "videoUrl": ""
+        },
+        {
+          "id": "campaign-setup-04",
+          "title": "Publish & Review Campaign",
+          "duration": "10 min",
+          "videoUrl": ""
+        }
+      ]
+    },
+    {
+      "id": "meta-pixel",
+      "title": "Meta Pixel Basics",
+      "description": "Apa itu Pixel, cara pasang, dan kenapa ini penting untuk tracking konversi.",
+      "lessons": [
+        {
+          "id": "meta-pixel-01",
+          "title": "Apa itu Meta Pixel?",
+          "duration": "10 min",
+          "videoUrl": ""
+        },
+        {
+          "id": "meta-pixel-02",
+          "title": "Event Tracking & Conversion",
+          "duration": "15 min",
+          "videoUrl": ""
+        }
+      ]
+    }
+  ]
+}

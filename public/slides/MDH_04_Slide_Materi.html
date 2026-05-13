@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta Ads — Dari Nol Sampai Jalan | MDH</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --mdh-dark:   #3B3A39;
+  --mdh-blush:  #EDD7D2;
+  --mdh-terra:  #D8A299;
+  --mdh-gold:   #CBB279;
+  --mdh-white:  #FFFFFF;
+  --mdh-cream:  #FAF7F4;
+  --mdh-warm:   #F5EDE8;
+  --mdh-mid:    #8A8785;
+  --mdh-border: #E0D8D5;
+  --meta-blue:  #1877F2;
+  --meta-dark:  #0D47A1;
+  --meta-light: #E8F0FE;
+  --font-d: 'Playfair Display', Georgia, serif;
+  --font-b: 'DM Sans', sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: var(--font-b); background: #1a1a18; overflow: hidden; height: 100vh; }
+
+/* NAV */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+       background: rgba(59,58,57,0.95); backdrop-filter: blur(10px);
+       display: flex; justify-content: space-between; align-items: center; padding: 10px 24px;
+       border-bottom: 1px solid rgba(203,178,121,0.2); }
+.nav-brand { display: flex; align-items: center; gap: 10px; }
+.nav-logo { width: 30px; height: 30px; background: var(--mdh-gold); border-radius: 5px;
+            display: flex; align-items: center; justify-content: center; }
+.nav-logo span { font-family: var(--font-d); font-weight: 900; font-size: 14px; color: var(--mdh-dark); }
+.nav-title { font-size: 12px; color: rgba(255,255,255,0.7); font-weight: 500; }
+.nav-controls { display: flex; gap: 8px; align-items: center; }
+.nav-btn { background: var(--mdh-gold); color: var(--mdh-dark); border: none; 
+           padding: 6px 14px; border-radius: 5px; cursor: pointer; font-size: 12px; 
+           font-weight: 700; font-family: var(--font-b); transition: opacity 0.2s; }
+.nav-btn:hover { opacity: 0.85; }
+.nav-counter { color: rgba(255,255,255,0.5); font-size: 11px; min-width: 50px; text-align: center; }
+.progress-bar { height: 2px; background: var(--mdh-gold); transition: width 0.3s ease; 
+                position: fixed; top: 46px; left: 0; z-index: 101; }
+
+/* SLIDES */
+.slides { padding-top: 48px; height: 100vh; }
+.slide { display: none; height: calc(100vh - 48px); overflow-y: auto; }
+.slide.active { display: flex; flex-direction: column; }
+
+/* ===== SLIDE LAYOUTS ===== */
+
+/* TITLE SLIDE */
+.sl-title { background: var(--mdh-dark); justify-content: center; align-items: center; 
+            text-align: center; padding: 60px 80px; position: relative; overflow: hidden; }
+.sl-title::before { content:''; position:absolute; top:-80px; right:-80px; width:320px; height:320px;
+                    background:var(--mdh-gold); opacity:0.06; border-radius:50%; }
+.sl-title::after { content:''; position:absolute; bottom:-60px; left:10%; width:240px; height:240px;
+                   background:var(--mdh-terra); opacity:0.06; border-radius:50%; }
+.sl-title .eyebrow { font-size:11px; letter-spacing:3px; text-transform:uppercase; 
+                     color:var(--mdh-gold); margin-bottom:24px; font-weight:600; }
+.sl-title h1 { font-family:var(--font-d); font-size:58px; color:var(--mdh-white); 
+               font-weight:900; line-height:1.05; margin-bottom:16px; }
+.sl-title h1 em { color:var(--mdh-gold); font-style:italic; }
+.sl-title .desc { font-size:16px; color:rgba(255,255,255,0.6); margin-bottom:40px; max-width:500px; margin-inline:auto; }
+.sl-title .meta-tags { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+.sl-title .tag { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12);
+                 color:rgba(255,255,255,0.7); padding:6px 16px; border-radius:20px; font-size:12px; }
+
+/* CREAM SLIDE */
+.sl-cream { background: var(--mdh-cream); padding: 48px 64px; justify-content: center; }
+.sl-cream h2 { font-family:var(--font-d); font-size:36px; color:var(--mdh-dark); 
+               font-weight:700; margin-bottom:8px; }
+.sl-cream .sub { font-size:14px; color:var(--mdh-mid); margin-bottom:32px; line-height:1.6; }
+
+/* DARK SLIDE */
+.sl-dark { background: var(--mdh-dark); padding: 48px 64px; justify-content: center; }
+.sl-dark h2 { font-family:var(--font-d); font-size:36px; color:var(--mdh-white); 
+              font-weight:700; margin-bottom:8px; }
+.sl-dark .sub { font-size:14px; color:rgba(255,255,255,0.5); margin-bottom:32px; line-height:1.6; }
+
+/* WARM SLIDE */
+.sl-warm { background: var(--mdh-warm); padding: 48px 64px; justify-content: center; }
+.sl-warm h2 { font-family:var(--font-d); font-size:36px; color:var(--mdh-dark);
+              font-weight:700; margin-bottom:8px; }
+.sl-warm .sub { font-size:14px; color:var(--mdh-mid); margin-bottom:32px; line-height:1.6; }
+
+/* META BLUE ACCENT SLIDE */
+.sl-meta { background: var(--meta-blue); padding: 48px 64px; justify-content: center; }
+.sl-meta h2 { font-family:var(--font-d); font-size:36px; color:white; font-weight:700; margin-bottom:8px; }
+.sl-meta .sub { font-size:14px; color:rgba(255,255,255,0.7); margin-bottom:32px; line-height:1.6; }
+
+/* CARDS */
+.grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+.grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.two-col { display:grid; grid-template-columns:3fr 2fr; gap:32px; align-items:start; }
+
+.card { background:white; border-radius:12px; padding:22px; border:1px solid var(--mdh-border); }
+.card-dark { background:rgba(255,255,255,0.07); border-radius:12px; padding:22px; border:1px solid rgba(255,255,255,0.1); }
+.card-warm { background:var(--mdh-warm); border-radius:12px; padding:22px; border:1px solid var(--mdh-border); }
+.card-gold { background:var(--mdh-gold); border-radius:12px; padding:22px; }
+.card-blush { background:var(--mdh-blush); border-radius:12px; padding:22px; }
+.card-meta { background:rgba(255,255,255,0.12); border-radius:12px; padding:22px; border:1px solid rgba(255,255,255,0.15); }
+
+.card-icon { font-size:28px; margin-bottom:10px; }
+.card-num { font-family:var(--font-d); font-size:44px; font-weight:900; line-height:1; margin-bottom:4px; }
+.card h3 { font-size:16px; font-weight:700; margin-bottom:8px; }
+.card-dark h3 { color:white; }
+.card-meta h3 { color:white; }
+.card p { font-size:13px; line-height:1.6; color:var(--mdh-mid); }
+.card-dark p { color:rgba(255,255,255,0.6); }
+.card-meta p { color:rgba(255,255,255,0.8); }
+.card-gold p { color:var(--mdh-dark); font-size:13px; line-height:1.6; }
+.card-blush p { color:var(--mdh-dark); font-size:13px; line-height:1.6; }
+
+/* LEVEL CARDS — 3 level meta */
+.level-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:0; }
+.level-card { padding:28px 24px; }
+.level-1 { background:var(--meta-blue); }
+.level-2 { background:var(--mdh-dark); }
+.level-3 { background:var(--mdh-gold); }
+.level-num { font-family:var(--font-d); font-size:48px; font-weight:900; opacity:0.2; line-height:1; margin-bottom:8px; }
+.level-1 .level-num, .level-2 .level-num { color:white; }
+.level-3 .level-num { color:var(--mdh-dark); }
+.level-name { font-size:20px; font-weight:700; margin-bottom:8px; }
+.level-1 .level-name, .level-2 .level-name { color:white; }
+.level-3 .level-name { color:var(--mdh-dark); }
+.level-desc { font-size:13px; line-height:1.6; }
+.level-1 .level-desc, .level-2 .level-desc { color:rgba(255,255,255,0.75); }
+.level-3 .level-desc { color:var(--mdh-dark); opacity:0.8; }
+.level-items { margin-top:12px; display:flex; flex-wrap:wrap; gap:5px; }
+.level-item { background:rgba(255,255,255,0.15); padding:3px 9px; border-radius:4px; 
+              font-size:11px; font-weight:600; }
+.level-1 .level-item, .level-2 .level-item { color:white; }
+.level-3 .level-item { background:rgba(59,58,57,0.15); color:var(--mdh-dark); }
+
+/* OBJECTIVE TABLE */
+.obj-table { width:100%; border-collapse:collapse; font-size:13px; border-radius:12px; overflow:hidden; }
+.obj-table th { background:var(--mdh-dark); color:var(--mdh-gold); padding:11px 14px; 
+                text-align:left; font-size:11px; letter-spacing:1px; text-transform:uppercase; }
+.obj-table td { padding:10px 14px; border-bottom:1px solid var(--mdh-border); vertical-align:top; }
+.obj-table tr:nth-child(even) td { background:var(--mdh-warm); }
+.tag { display:inline-block; padding:2px 9px; border-radius:10px; font-size:10px; font-weight:700; }
+.tag-gold { background:var(--mdh-gold); color:var(--mdh-dark); }
+.tag-terra { background:var(--mdh-terra); color:white; }
+.tag-blue { background:var(--meta-blue); color:white; }
+
+/* STEP FLOW */
+.flow { display:flex; gap:6px; align-items:center; flex-wrap:wrap; 
+        background:var(--mdh-warm); border-radius:10px; padding:14px 18px; }
+.flow-step { background:var(--mdh-dark); color:var(--mdh-gold); padding:6px 14px; 
+             border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap; }
+.flow-arr { color:var(--mdh-terra); font-weight:700; font-size:14px; }
+
+/* INFO BOXES */
+.ib { border-radius:10px; padding:14px 18px; margin:10px 0; display:flex; gap:12px; }
+.ib-tip { background:var(--mdh-warm); border-left:3px solid var(--mdh-terra); }
+.ib-warn { background:#FFF8E1; border-left:3px solid var(--mdh-gold); }
+.ib-danger { background:#FFEBEE; border-left:3px solid #F44336; }
+.ib-meta { background:var(--meta-light); border-left:3px solid var(--meta-blue); }
+.ib p { font-size:13px; line-height:1.6; }
+.ib strong { font-weight:700; color:var(--mdh-dark); display:block; margin-bottom:2px; }
+.ib-icon { font-size:18px; flex-shrink:0; }
+
+/* METRICS GRID */
+.metric-card { background:white; border-radius:10px; padding:14px; border:1px solid var(--mdh-border); }
+.metric-name { font-size:16px; font-weight:800; color:var(--meta-blue); margin-bottom:2px; }
+.metric-full { font-size:10px; color:var(--mdh-mid); margin-bottom:6px; }
+.metric-formula { font-size:10px; background:var(--mdh-warm); padding:3px 8px; border-radius:4px; 
+                  font-family:monospace; color:var(--mdh-dark); margin-top:5px; display:inline-block; }
+.metric-bench { font-size:11px; font-weight:600; margin-top:5px; }
+.bench-good { color:#2E7D32; }
+.bench-warn { color:#E65100; }
+
+/* TIMELINE */
+.tl { position:relative; padding-left:28px; }
+.tl::before { content:''; position:absolute; left:9px; top:4px; bottom:4px; width:2px; background:rgba(255,255,255,0.15); }
+.tl-item { position:relative; margin-bottom:20px; }
+.tl-dot { position:absolute; left:-24px; top:4px; width:14px; height:14px; border-radius:50%;
+          background:var(--mdh-gold); border:2px solid var(--mdh-dark); }
+.tl-time { font-size:10px; font-weight:700; color:var(--mdh-gold); letter-spacing:1px; text-transform:uppercase; margin-bottom:2px; }
+.tl-title { font-size:15px; font-weight:600; color:white; margin-bottom:3px; }
+.tl-desc { font-size:12px; color:rgba(255,255,255,0.55); line-height:1.5; }
+
+/* MDH CREDIT - subtle */
+.mdh-credit { position:fixed; bottom:14px; right:20px; z-index:200;
+              display:flex; align-items:center; gap:6px; opacity:0.6; }
+.mdh-credit:hover { opacity:1; }
+.cred-box { width:22px; height:22px; background:var(--mdh-gold); border-radius:4px;
+            display:flex; align-items:center; justify-content:center; }
+.cred-box span { font-family:var(--font-d); font-weight:900; font-size:11px; color:var(--mdh-dark); }
+.cred-text { font-size:10px; color:rgba(255,255,255,0.6); letter-spacing:0.5px; }
+
+/* SLIDE NUM BADGE */
+.snum { position:absolute; top:20px; right:20px; background:rgba(255,255,255,0.1);
+        color:rgba(255,255,255,0.5); padding:4px 10px; border-radius:10px; font-size:10px; font-weight:600; }
+.snum-dark { background:rgba(59,58,57,0.1); color:var(--mdh-mid); }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-brand">
+    <div class="nav-logo"><span>M</span></div>
+    <div class="nav-title">MDH · Meta Ads — Dari Nol Sampai Jalan</div>
+  </div>
+  <div class="nav-controls">
+    <button class="nav-btn" onclick="go(-1)">← Prev</button>
+    <div class="nav-counter" id="ctr">1 / 16</div>
+    <button class="nav-btn" onclick="go(1)">Next →</button>
+  </div>
+</div>
+<div class="progress-bar" id="prog" style="width:6.25%"></div>
+
+<!-- MDH Credit -->
+<div class="mdh-credit">
+  <div class="cred-box"><span>M</span></div>
+  <div class="cred-text">MDH — Maharani Digital Hub</div>
+</div>
+
+<div class="slides">
+
+<!-- S1: TITLE -->
+<div class="slide sl-title active">
+  <div class="eyebrow">Meta Ads Series · Praktikum #1</div>
+  <h1>Meta Ads<br><em>Dari Nol</em><br>Sampai Jalan</h1>
+  <div class="desc">Setup Campaign, Targeting & Launch — Hands-on Praktikum Pertama</div>
+  <div class="meta-tags">
+    <div class="tag">📅 Pertemuan 9–10</div>
+    <div class="tag">⏱ 100 Menit</div>
+    <div class="tag">👥 Kerja Kelompok</div>
+    <div class="tag">🎯 Hands-On</div>
+  </div>
+</div>
+
+<!-- S2: AGENDA -->
+<div class="slide sl-dark" style="position:relative;">
+  <div class="snum">2/16</div>
+  <h2>Yang Kita Lakukan Hari Ini</h2>
+  <div class="sub">Bukan teori. Hari ini kamu benar-benar setup iklan untuk UMKM kamu.</div>
+  <div class="tl">
+    <div class="tl-item"><div class="tl-dot"></div>
+      <div class="tl-time">0 – 10 menit</div>
+      <div class="tl-title">Context Reset</div>
+      <div class="tl-desc">Hubungkan segmentasi yang sudah dibuat ke dunia nyata Meta Ads</div>
+    </div>
+    <div class="tl-item"><div class="tl-dot"></div>
+      <div class="tl-time">10 – 20 menit</div>
+      <div class="tl-title">Orientasi Peta Meta Ads</div>
+      <div class="tl-desc">Pahami struktur Campaign → Ad Set → Ad. Sekali paham, selamanya nyambung.</div>
+    </div>
+    <div class="tl-item"><div class="tl-dot"></div>
+      <div class="tl-time">20 – 75 menit</div>
+      <div class="tl-title">🔥 Praktek — Mission Card per Kelompok</div>
+      <div class="tl-desc">Tiap kelompok dapat misi spesifik sesuai UMKM mereka. Ini challenge nyata, bukan tutorial.</div>
+    </div>
+    <div class="tl-item"><div class="tl-dot"></div>
+      <div class="tl-time">75 – 90 menit</div>
+      <div class="tl-title">Cross-group Review</div>
+      <div class="tl-desc">Setiap kelompok tunjukkan hasil setup. Kelompok lain kasih satu pertanyaan kritis.</div>
+    </div>
+    <div class="tl-item"><div class="tl-dot"></div>
+      <div class="tl-time">90 – 100 menit</div>
+      <div class="tl-title">Refleksi + Preview Sesi Berikutnya</div>
+      <div class="tl-desc">A/B Testing & Analisis Performa — coming next!</div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: WHY META -->
+<div class="slide sl-cream" style="position:relative;">
+  <div class="snum snum-dark">3/16</div>
+  <h2>Kenapa Meta Ads?</h2>
+  <div class="sub">Bukan karena populer — tapi karena data targeting-nya tidak ada tandingannya.</div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-num" style="color:var(--meta-blue)">3.2M</div>
+      <div style="font-size:11px;color:var(--mdh-mid);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Pengguna di Indonesia</div>
+      <p>Indonesia adalah salah satu pasar terbesar Meta. Target market kamu pasti ada di sini.</p>
+    </div>
+    <div class="card">
+      <div class="card-num" style="color:var(--mdh-terra)">85%</div>
+      <div style="font-size:11px;color:var(--mdh-mid);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Akurasi Targeting</div>
+      <p>Meta tahu minat, lokasi, dan behavior penggunanya lebih detail dari platform lain.</p>
+    </div>
+    <div class="card">
+      <div class="card-num" style="color:var(--mdh-gold)">Rp500</div>
+      <div style="font-size:11px;color:var(--mdh-mid);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Mulai Dari Segini/Hari</div>
+      <p>Budget sangat fleksibel. Cocok untuk UMKM yang baru mulai beriklan digital.</p>
+    </div>
+  </div>
+  <div class="ib ib-meta" style="margin-top:20px;">
+    <div class="ib-icon">ℹ️</div>
+    <p><strong>1 Campaign = Facebook + Instagram sekaligus.</strong> Meta Ads mencakup kedua platform — setting sekali, jangkauan dua kali lipat.</p>
+  </div>
+</div>
+
+<!-- S4: EKOSISTEM -->
+<div class="slide sl-dark" style="position:relative;">
+  <div class="snum">4/16</div>
+  <h2>Ekosistem Meta — Apa yang Harus Disiapkan</h2>
+  <div class="sub">Sebelum iklan bisa jalan, infrastruktur ini harus siap semua.</div>
+  <div class="grid-3" style="margin-bottom:16px;">
+    <div class="card-dark">
+      <div class="card-icon">👤</div>
+      <h3>Facebook Personal Account</h3>
+      <p>Pintu masuk ke semua produk Meta bisnis. Wajib ada dan aktif min. 30 hari.</p>
+      <div style="margin-top:10px;"><span class="tag tag-terra">Wajib</span></div>
+    </div>
+    <div class="card-dark">
+      <div class="card-icon">📄</div>
+      <h3>Facebook Page</h3>
+      <p>Identitas bisnis di Facebook. Iklan akan keluar atas nama halaman ini. Wajib dibuat sebelum beriklan.</p>
+      <div style="margin-top:10px;"><span class="tag tag-terra">Wajib</span></div>
+    </div>
+    <div class="card-dark">
+      <div class="card-icon">📊</div>
+      <h3>Meta Ads Manager</h3>
+      <p>Dashboard utama untuk buat dan monitor semua campaign. <span style="color:var(--mdh-gold);">adsmanager.facebook.com</span></p>
+      <div style="margin-top:10px;"><span class="tag tag-gold">Main Tool</span></div>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="card-dark">
+      <div class="card-icon">💳</div>
+      <h3>Metode Pembayaran</h3>
+      <p>Kartu Visa/Mastercard atau PayPal. Diperlukan sebelum iklan bisa running.</p>
+    </div>
+    <div class="card-dark">
+      <div class="card-icon">📱</div>
+      <h3>Instagram Business (Optional)</h3>
+      <p>Hubungkan ke Facebook Page agar iklan bisa tampil di Instagram juga.</p>
+    </div>
+  </div>
+</div>
+
+<!-- S5: STRUKTUR 3 LEVEL -->
+<div class="slide" style="background:var(--mdh-cream);position:relative;">
+  <div class="snum snum-dark" style="position:absolute;">5/16</div>
+  <div style="padding:48px 64px 20px;">
+    <h2 style="font-family:var(--font-d);font-size:36px;color:var(--mdh-dark);margin-bottom:8px;">Struktur 3 Level yang Harus Dipahami</h2>
+    <div style="font-size:14px;color:var(--mdh-mid);margin-bottom:28px;">Analoginya: Campaign = Tujuan perjalanan. Ad Set = Kendaraan + Rute. Ad = Penampilan kamu di jalan.</div>
+  </div>
+  <div class="level-cards" style="flex:1;">
+    <div class="level-card level-1">
+      <div class="level-num">01</div>
+      <div class="level-name">CAMPAIGN</div>
+      <div class="level-desc">Kamu tentukan <strong>TUJUAN</strong>. Mau apa dari iklan ini? Brand awareness? Traffic ke WA? Lead generation?</div>
+      <div class="level-items">
+        <span class="level-item">Objective</span>
+        <span class="level-item">Nama Campaign</span>
+        <span class="level-item">Budget Level</span>
+      </div>
+    </div>
+    <div class="level-card level-2">
+      <div class="level-num">02</div>
+      <div class="level-name">AD SET</div>
+      <div class="level-desc">Kamu tentukan <strong>SIAPA & KAPAN</strong>. Audience, lokasi, budget harian, dan jadwal tayang.</div>
+      <div class="level-items">
+        <span class="level-item">Audience</span>
+        <span class="level-item">Lokasi + Radius</span>
+        <span class="level-item">Budget</span>
+        <span class="level-item">Placement</span>
+      </div>
+    </div>
+    <div class="level-card level-3">
+      <div class="level-num">03</div>
+      <div class="level-name">AD</div>
+      <div class="level-desc">Kamu tentukan <strong>APA yang dilihat</strong>. Gambar/video, headline, primary text, dan CTA button.</div>
+      <div class="level-items">
+        <span class="level-item">Creative</span>
+        <span class="level-item">Headline</span>
+        <span class="level-item">Primary Text</span>
+        <span class="level-item">CTA</span>
+      </div>
+    </div>
+  </div>
+  <div style="padding:16px 64px;background:var(--mdh-warm);font-size:13px;color:var(--mdh-mid);text-align:center;">
+    💡 1 Campaign dapat punya banyak Ad Set. 1 Ad Set dapat punya banyak Ad. Inilah fondasi A/B Testing.
+  </div>
+</div>
+
+<!-- S6: OBJECTIVES -->
+<div class="slide sl-warm" style="position:relative;">
+  <div class="snum snum-dark">6/16</div>
+  <h2>6 Campaign Objectives — Pilih yang Tepat</h2>
+  <div class="sub">Keputusan paling penting. Objective yang salah = uang terbuang.</div>
+  <table class="obj-table">
+    <thead>
+      <tr><th>Objective</th><th>Cocok Untuk</th><th>Meta Optimize Ke</th><th>Contoh UMKM</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>📢 Awareness</strong></td><td>Brand baru, event baru</td><td>Reach seluas mungkin</td><td>Atomico baru buka → perkenalkan ke area</td></tr>
+      <tr><td><strong>🔗 Traffic</strong> <span class="tag tag-blue">Populer</span></td><td>Arahkan ke website/WA/link</td><td>Klik ke destination</td><td>HUNGR → traffic ke WA untuk order</td></tr>
+      <tr><td><strong>❤️ Engagement</strong></td><td>Perbanyak interaksi</td><td>Like, comment, share</td><td>Seloyang Pizza → viral di area lokal</td></tr>
+      <tr><td><strong>📋 Leads</strong> <span class="tag tag-gold">Kuat</span></td><td>Kumpulkan data kontak</td><td>Form submission</td><td>GTX Motor → kumpulkan kontak calon pembeli</td></tr>
+      <tr><td><strong>📱 App Promo</strong></td><td>Punya aplikasi mobile</td><td>Install / penggunaan app</td><td>CCRP → jika ada mobile app</td></tr>
+      <tr><td><strong>🛒 Sales</strong></td><td>E-commerce + website + Pixel</td><td>Pembelian di website</td><td>Belum relevan tanpa website + Pixel</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- S7: AUDIENCE TARGETING -->
+<div class="slide sl-dark" style="position:relative;">
+  <div class="snum">7/16</div>
+  <h2>Audience Targeting — Kekuatan Terbesar Meta</h2>
+  <div class="sub">Meta bisa "menemukan" orang berdasarkan kombinasi faktor yang sangat detail.</div>
+  <div class="grid-2">
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="card-dark" style="display:flex;gap:14px;">
+        <span style="font-size:26px;flex-shrink:0;">📍</span>
+        <div><h3>Location</h3><p>Negara, kota, atau <strong style="color:var(--mdh-gold)">radius dari titik tertentu</strong> (min. 1 mile ≈ 1.6km). Pilih "Currently in location" untuk bisnis lokal.</p></div>
+      </div>
+      <div class="card-dark" style="display:flex;gap:14px;">
+        <span style="font-size:26px;flex-shrink:0;">👤</span>
+        <div><h3>Demographics</h3><p>Usia, gender, bahasa, pendidikan, status hubungan. Paling basic dan paling sering dipakai.</p></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="card-dark" style="display:flex;gap:14px;">
+        <span style="font-size:26px;flex-shrink:0;">💡</span>
+        <div><h3>Interests</h3><p>Topik, brand, halaman FB yang disukai. <strong style="color:var(--mdh-gold)">Ini kuncinya.</strong> Makin spesifik interest, makin tepat audience.</p></div>
+      </div>
+      <div class="card-dark" style="display:flex;gap:14px;">
+        <span style="font-size:26px;flex-shrink:0;">⚡</span>
+        <div><h3>Behaviors</h3><p>Kebiasaan digital: frequent traveler, pembeli online, pengguna device tertentu, admin bisnis.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="ib ib-warn" style="margin-top:16px;">
+    <div class="ib-icon">⚠️</div>
+    <p><strong>Audience terlalu kecil (&lt;1.000)?</strong> Kurangi filter atau perluas usia. <strong>Terlalu besar (&gt;1 juta)?</strong> Tambah interest yang lebih spesifik. Target ideal UMKM lokal: 50K–500K orang.</p>
+  </div>
+</div>
+
+<!-- S8: SETUP AKUN -->
+<div class="slide sl-cream" style="position:relative;">
+  <div class="snum snum-dark">8/16</div>
+  <h2>Setup Akun — Langkah Sebelum Bisa Beriklan</h2>
+  <div class="sub">Pastikan semua infrastruktur ini sudah siap sebelum masuk ke Ads Manager.</div>
+  <div class="grid-2">
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:32px;height:32px;background:var(--mdh-dark);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--mdh-gold);font-weight:800;font-size:14px;flex-shrink:0;">1</div>
+        <div><div style="font-size:14px;font-weight:700;margin-bottom:3px;">Facebook Personal Account aktif</div><div style="font-size:12px;color:var(--mdh-mid);">Min. 30 hari aktif. Ini pintu masuk ke semua produk Meta bisnis.</div></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:32px;height:32px;background:var(--mdh-dark);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--mdh-gold);font-weight:800;font-size:14px;flex-shrink:0;">2</div>
+        <div><div style="font-size:14px;font-weight:700;margin-bottom:3px;">Buat Facebook Page</div><div style="font-size:12px;color:var(--mdh-mid);">facebook.com → Pages → Create New Page. Isi nama, kategori, dan foto.</div></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:32px;height:32px;background:var(--mdh-dark);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--mdh-gold);font-weight:800;font-size:14px;flex-shrink:0;">3</div>
+        <div><div style="font-size:14px;font-weight:700;margin-bottom:3px;">Buka Meta Business Suite</div><div style="font-size:12px;color:var(--mdh-mid);">business.facebook.com → tambahkan Page ke Business Account.</div></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:32px;height:32px;background:var(--mdh-dark);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--mdh-gold);font-weight:800;font-size:14px;flex-shrink:0;">4</div>
+        <div><div style="font-size:14px;font-weight:700;margin-bottom:3px;">Buka Meta Ads Manager</div><div style="font-size:12px;color:var(--mdh-mid);">adsmanager.facebook.com — ini yang akan dipakai sepanjang praktikum.</div></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:32px;height:32px;background:var(--mdh-dark);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--mdh-gold);font-weight:800;font-size:14px;flex-shrink:0;">5</div>
+        <div><div style="font-size:14px;font-weight:700;margin-bottom:3px;">Tambahkan Metode Pembayaran</div><div style="font-size:12px;color:var(--mdh-mid);">Settings → Billing & Payments → Add Payment Method (Visa/Mastercard/PayPal).</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="card-warm" style="border:2px solid var(--mdh-terra);">
+        <div style="font-size:14px;font-weight:700;color:var(--mdh-dark);margin-bottom:12px;">✅ Checklist Sebelum Mulai</div>
+        <div style="display:flex;flex-direction:column;gap:7px;font-size:13px;color:var(--mdh-dark);">
+          <div>☐ FB Account aktif min. 30 hari</div>
+          <div>☐ Facebook Page sudah dibuat</div>
+          <div>☐ IG terhubung ke Page (jika ada)</div>
+          <div>☐ Sudah bisa akses Ads Manager</div>
+          <div>☐ Payment method tersimpan</div>
+          <div>☐ Creative (gambar/video) sudah siap</div>
+          <div>☐ Tahu tujuan iklan (awareness/traffic/leads?)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S9: BUAT CAMPAIGN -->
+<div class="slide sl-dark" style="position:relative;">
+  <div class="snum">9/16</div>
+  <h2>Membuat Campaign — Step by Step</h2>
+  <div class="sub">Mulai dari Ads Manager → klik Create → pilih objective → beri nama.</div>
+  <div class="two-col">
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="card-dark" style="display:flex;gap:14px;">
+        <div style="width:32px;height:32px;background:var(--mdh-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--mdh-dark);flex-shrink:0;">1</div>
+        <div><div style="color:white;font-weight:700;margin-bottom:3px;">Buka Ads Manager → Klik "+ Create"</div><div style="color:rgba(255,255,255,0.55);font-size:12px;">Tombol hijau di area Campaign. Ini memulai wizard pembuatan campaign.</div></div>
+      </div>
+      <div class="card-dark" style="display:flex;gap:14px;">
+        <div style="width:32px;height:32px;background:var(--mdh-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--mdh-dark);flex-shrink:0;">2</div>
+        <div><div style="color:white;font-weight:700;margin-bottom:3px;">Pilih Campaign Objective</div><div style="color:rgba(255,255,255,0.55);font-size:12px;">Untuk mayoritas kasus hari ini: <strong style="color:var(--mdh-gold)">Traffic</strong> (order WA) atau <strong style="color:var(--mdh-gold)">Engagement</strong>.</div></div>
+      </div>
+      <div class="card-dark" style="display:flex;gap:14px;">
+        <div style="width:32px;height:32px;background:var(--mdh-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--mdh-dark);flex-shrink:0;">3</div>
+        <div><div style="color:white;font-weight:700;margin-bottom:3px;">Beri Nama Campaign</div><div style="color:rgba(255,255,255,0.55);font-size:12px;">Format: <strong style="color:var(--mdh-gold)">[UMKM]-[OBJ]-[BulanTahun]</strong> → contoh: HUNGR-TRF-Apr2026</div></div>
+      </div>
+      <div class="card-dark" style="display:flex;gap:14px;">
+        <div style="width:32px;height:32px;background:var(--mdh-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--mdh-dark);flex-shrink:0;">4</div>
+        <div><div style="color:white;font-weight:700;margin-bottom:3px;">Pilih Budget Level</div><div style="color:rgba(255,255,255,0.55);font-size:12px;">Untuk pemula: pilih <strong style="color:var(--mdh-gold)">Ad Set Budget</strong> bukan Campaign Budget — lebih mudah dikontrol.</div></div>
+      </div>
+      <div class="card-dark" style="display:flex;gap:14px;">
+        <div style="width:32px;height:32px;background:var(--mdh-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--mdh-dark);flex-shrink:0;">5</div>
+        <div><div style="color:white;font-weight:700;margin-bottom:3px;">Klik "Next" → Masuk ke Ad Set</div><div style="color:rgba(255,255,255,0.55);font-size:12px;">Level berikutnya: setting audience, budget, dan placement.</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="card-dark">
+        <div style="color:var(--mdh-gold);font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;">⚠️ Perhatian Penting</div>
+        <p style="color:rgba(255,255,255,0.7);font-size:13px;line-height:1.7;margin-bottom:12px;">Objective <strong style="color:white">TIDAK BISA diubah</strong> setelah campaign dibuat. Jika salah, harus buat baru dari awal.</p>
+        <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:12px;font-size:11px;color:rgba(255,255,255,0.5);font-family:monospace;line-height:2.2;">
+          Campaign: HUNGR-TRF-Apr2026<br>
+          Ad Set: MHS-18-25-INSTIKI<br>
+          Ad: REEL-V1-OrderWA
+        </div>
+        <div style="font-size:11px;color:var(--mdh-mid);margin-top:8px;">Naming convention ini berlaku sepanjang semester untuk konsistensi analisis.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S10: AD SET SETUP -->
+<div class="slide sl-cream" style="position:relative;">
+  <div class="snum snum-dark">10/16</div>
+  <h2>Setup Ad Set — Di Sinilah Magic-nya</h2>
+  <div class="sub">Ad Set adalah level paling kritis. Salah targeting = semua percuma.</div>
+  <div class="grid-3">
+    <div class="card" style="border-top:3px solid var(--meta-blue);">
+      <div style="font-size:11px;font-weight:700;color:var(--meta-blue);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">① Location</div>
+      <p><strong>Ketik nama kota/area</strong> → atur radius. Min. Meta = <strong>1 mile (~1.6km)</strong>.<br><br>Pilih: <em>"People currently in this location"</em> untuk bisnis lokal yang butuh orang fisik datang.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--mdh-terra);">
+      <div style="font-size:11px;font-weight:700;color:var(--mdh-terra);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">② Audience Details</div>
+      <p><strong>Usia:</strong> Sesuaikan segmentasi UMKM<br><strong>Gender:</strong> All / Men / Women<br><br><strong>Detailed Targeting:</strong> Masukkan Interests & Behaviors. Klik "Suggestions" untuk ide lebih banyak.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--mdh-gold);">
+      <div style="font-size:11px;font-weight:700;color:var(--mdh-gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">③ Budget & Schedule</div>
+      <p><strong>Daily Budget:</strong> Maks per hari<br><strong>Min:</strong> Rp 20.000/hari<br><br><strong>Durasi:</strong> Minimal 5 hari — 3 hari pertama adalah "learning phase" Meta.<br><br>Cek <strong>Estimated Results</strong> di panel kanan!</p>
+    </div>
+  </div>
+  <div class="ib ib-tip" style="margin-top:16px;">
+    <div class="ib-icon">💡</div>
+    <p><strong>Placement:</strong> Untuk pemula, gunakan <strong>Advantage+ Placements</strong> (otomatis). Meta akan distribusikan budget ke placement yang paling efektif. Manual placement hanya untuk yang sudah punya data performa sebelumnya.</p>
+  </div>
+</div>
+
+<!-- S11: AD CREATIVE -->
+<div class="slide sl-dark" style="position:relative;">
+  <div class="snum">11/16</div>
+  <h2>Level Ad — Creative & Copy</h2>
+  <div class="sub">97% orang scroll tanpa berhenti. Iklan kamu punya 1.7 detik untuk menarik perhatian.</div>
+  <div class="grid-2">
+    <div>
+      <div class="card-dark" style="margin-bottom:12px;">
+        <div style="color:var(--mdh-gold);font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">Format Tersedia</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;gap:10px;align-items:center;"><span style="font-size:20px">🎬</span><div><strong style="color:white;">Video/Reels</strong> — <span style="color:rgba(255,255,255,0.55);font-size:12px;">Paling tinggi engagement. Ideal 15-30 detik.</span></div></div>
+          <div style="display:flex;gap:10px;align-items:center;"><span style="font-size:20px">🖼️</span><div><strong style="color:white;">Single Image</strong> — <span style="color:rgba(255,255,255,0.55);font-size:12px;">Simple, cepat dibuat. Cocok untuk promo produk.</span></div></div>
+          <div style="display:flex;gap:10px;align-items:center;"><span style="font-size:20px">🎠</span><div><strong style="color:white;">Carousel</strong> — <span style="color:rgba(255,255,255,0.55);font-size:12px;">Beberapa gambar. Cocok untuk katalog/menu.</span></div></div>
+          <div style="display:flex;gap:10px;align-items:center;"><span style="font-size:20px">📱</span><div><strong style="color:white;">Story/Fullscreen</strong> — <span style="color:rgba(255,255,255,0.55);font-size:12px;">Immersive, vertical. Tinggi di mobile.</span></div></div>
+        </div>
+      </div>
+      <div class="card-dark">
+        <div style="color:var(--mdh-gold);font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Spesifikasi Teknis</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.6);line-height:2;">
+          📐 Image: 1080×1080px (1:1) atau 1080×1350px (4:5)<br>
+          🎬 Video: MP4/MOV, max 4GB, H.264<br>
+          📝 Headline: Max 40 karakter<br>
+          📝 Primary Text: 125 karakter optimal<br>
+          🖼️ Teks di gambar: max 20% area
+        </div>
+      </div>
+    </div>
+    <div class="card-dark">
+      <div style="color:var(--mdh-gold);font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;">✍️ Formula Copywriting — PAS</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:10px;">
+          <div style="font-size:11px;font-weight:700;color:var(--mdh-terra);margin-bottom:4px;">P — PROBLEM</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.7);">Sebutkan masalah yang audience rasakan</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;font-style:italic;">"Udah jam 10 malem, belum makan..."</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:10px;">
+          <div style="font-size:11px;font-weight:700;color:var(--mdh-gold);margin-bottom:4px;">A — AGITATE</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.7);">Perkuat masalahnya</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;font-style:italic;">"Antri panjang, mahal, ribet delivery..."</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:10px;">
+          <div style="font-size:11px;font-weight:700;color:#4CAF50;margin-bottom:4px;">S — SOLVE</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.7);">Tawarkan solusimu</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;font-style:italic;">"HUNGR. antar dalam 20 menit, harga mahasiswa"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S12: CONTOH SETTING -->
+<div class="slide sl-cream" style="position:relative;">
+  <div class="snum snum-dark">12/16</div>
+  <h2>Contoh Setting Lengkap — Referensi Semua Kelompok</h2>
+  <div class="sub">Template dari HUNGR. yang bisa dijadikan acuan format dan logika setting.</div>
+  <table class="obj-table" style="font-size:12px;">
+    <thead>
+      <tr><th>Level</th><th>Field</th><th>Setting</th><th>Alasan</th></tr>
+    </thead>
+    <tbody>
+      <tr><td rowspan="2"><strong>Campaign</strong></td><td>Objective</td><td><span class="tag tag-blue">Traffic → Messaging</span></td><td>Order via DM/WA, bukan website</td></tr>
+      <tr><td>Nama</td><td>HUNGR-TRF-Apr2026</td><td>Format konsisten untuk analisis</td></tr>
+      <tr><td rowspan="5"><strong>Ad Set</strong></td><td>Location</td><td>Denpasar + 2km dari INSTIKI</td><td>Sesuai jangkauan delivery</td></tr>
+      <tr><td>Age</td><td>18–28 tahun, All gender</td><td>Core audience: mahasiswa</td></tr>
+      <tr><td>Interests</td><td>Student life, Indonesian food, Food delivery, Convenience food</td><td>Match psikografi target</td></tr>
+      <tr><td>Budget</td><td>Rp 30.000/hari × 7 hari</td><td>Data awal cukup, realistis UMKM</td></tr>
+      <tr><td>Placement</td><td>Advantage+ (otomatis)</td><td>Pemula, biarkan Meta optimasi</td></tr>
+      <tr><td rowspan="3"><strong>Ad</strong></td><td>Format</td><td>Single Image / Short Video</td><td>Mudah dibuat, efektif kuliner</td></tr>
+      <tr><td>Headline</td><td>"Lapar Malam? Kita Antar ke Kamu 🛵"</td><td>Pain point + solusi dalam 6 kata</td></tr>
+      <tr><td>CTA</td><td>Send Message</td><td>Direct ke WA/IG DM untuk order</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- S13: REPORTING -->
+<div class="slide sl-dark" style="position:relative;">
+  <div class="snum">13/16</div>
+  <h2>Membaca Data — Iklan Jalan, Terus Apa?</h2>
+  <div class="sub">Setelah iklan running minimal 1–2 hari, data mulai masuk. Ini yang harus dipantau.</div>
+  <div class="grid-3" style="margin-bottom:16px;">
+    <div class="metric-card">
+      <div class="metric-name">REACH</div>
+      <div class="metric-full">Jumlah orang unik yang lihat iklan</div>
+      <div class="metric-bench bench-good">Sesuai estimasi saat setup ✓</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-name">CTR</div>
+      <div class="metric-full">Click-Through Rate</div>
+      <div class="metric-formula">Klik ÷ Impressi × 100%</div>
+      <div class="metric-bench bench-good">0.5–2% Normal · 2%+ Bagus</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-name">CPC</div>
+      <div class="metric-full">Cost Per Click</div>
+      <div class="metric-formula">Spend ÷ Jumlah Klik</div>
+      <div class="metric-bench bench-good">Indonesia: Rp 500–3.000</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-name">CPM</div>
+      <div class="metric-full">Cost per 1000 Impressions</div>
+      <div class="metric-formula">Spend ÷ Impr × 1.000</div>
+      <div class="metric-bench bench-warn">Indonesia avg: Rp 5–25K</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-name">FREQUENCY</div>
+      <div class="metric-full">Rata-rata berapa kali 1 orang lihat</div>
+      <div class="metric-bench bench-good">Ideal 2–5x · Lebih 7x = fatigue</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-name">RESULTS</div>
+      <div class="metric-full">Jumlah objective yang tercapai</div>
+      <div class="metric-bench bench-warn">Sesuai objective yang dipilih</div>
+    </div>
+  </div>
+  <div class="ib ib-tip">
+    <div class="ib-icon">📊</div>
+    <p><strong>Cara buka kolom metrik lengkap:</strong> Klik "Columns" di dashboard → pilih "Performance and Clicks" → semua metrik penting langsung muncul. Gunakan "Breakdown" untuk tahu siapa yang paling responsif (per usia, gender, placement).</p>
+  </div>
+</div>
+
+<!-- S14: TROUBLESHOOTING -->
+<div class="slide sl-warm" style="position:relative;">
+  <div class="snum snum-dark">14/16</div>
+  <h2>Troubleshooting — Masalah Umum & Solusinya</h2>
+  <div class="sub">Yang sering terjadi di praktikum pertama. Jangan panik — ini semua ada solusinya.</div>
+  <table class="obj-table">
+    <thead>
+      <tr><th>Masalah</th><th>Kemungkinan Penyebab</th><th>Solusi</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>❌ Campaign not delivering</td><td>Masih In Review / payment issue</td><td>Tunggu maks 24 jam atau cek payment method</td></tr>
+      <tr><td>❌ Iklan ditolak (Rejected)</td><td>Melanggar Meta Ads Policy</td><td>Baca rejection reason → edit copy/gambar → submit ulang</td></tr>
+      <tr><td>❌ Audience size "too small"</td><td>Filter terlalu ketat, area terlalu sempit</td><td>Perluas radius, tambah usia range, kurangi interest</td></tr>
+      <tr><td>❌ Budget habis cepat, reach sedikit</td><td>CPM tinggi, audience terlalu niche</td><td>Perluas audience atau coba objective Awareness</td></tr>
+      <tr><td>❌ Tidak bisa tambah payment</td><td>Akun baru / belum verifikasi identitas</td><td>Verifikasi di Business Settings → Security Center</td></tr>
+      <tr><td>❌ Estimated results = 0</td><td>Budget terlalu kecil atau audience sangat spesifik</td><td>Naikkan budget atau perluas targeting</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- S15: ETIKA -->
+<div class="slide sl-dark" style="position:relative;">
+  <div class="snum">15/16</div>
+  <h2>Etika & Regulasi — Beriklan dengan Bertanggung Jawab</h2>
+  <div class="sub">Meta punya kebijakan ketat. Melanggar bisa membuat akun diblokir permanen.</div>
+  <div class="grid-2">
+    <div>
+      <div class="card-dark" style="margin-bottom:14px;border-left:3px solid #F44336;">
+        <div style="color:#EF5350;font-weight:700;font-size:13px;margin-bottom:10px;">❌ Yang TIDAK Boleh</div>
+        <ul style="color:rgba(255,255,255,0.65);font-size:12px;padding-left:16px;line-height:2.4;">
+          <li>Klaim yang tidak bisa dibuktikan ("Terbaik se-Indonesia")</li>
+          <li>Before/after gambar kesehatan/body yang dramatis</li>
+          <li>Konten yang mengeksploitasi insecurity audience</li>
+          <li>Harga misleading atau diskon yang tidak real</li>
+          <li>Foto/video orang lain tanpa izin</li>
+          <li>Konten dewasa, kekerasan, atau diskriminasi</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card-dark" style="border-left:3px solid var(--mdh-gold);">
+        <div style="color:var(--mdh-gold);font-weight:700;font-size:13px;margin-bottom:10px;">✅ Prinsip Iklan yang Baik</div>
+        <ul style="color:rgba(255,255,255,0.65);font-size:12px;padding-left:16px;line-height:2.4;">
+          <li>Jujur tentang produk: harga, ketersediaan, kondisi</li>
+          <li>Tidak menyesatkan dengan visual yang dimanipulasi</li>
+          <li>Hormati privasi audience</li>
+          <li>Identifikasi iklan dengan jelas (otomatis ada label "Sponsored")</li>
+          <li>Tidak menarget anak &lt;18 untuk produk dewasa</li>
+          <li>Comply dengan regulasi digital Indonesia</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div style="background:rgba(203,178,121,0.1);border-radius:10px;padding:16px 20px;margin-top:16px;border-left:3px solid var(--mdh-gold);">
+    <p style="color:rgba(255,255,255,0.7);font-size:14px;font-style:italic;">"Di era digital, kepercayaan adalah aset terbesar. Satu iklan yang menipu bisa merusak brand yang dibangun bertahun-tahun."</p>
+  </div>
+</div>
+
+<!-- S16: NEXT -->
+<div class="slide sl-title">
+  <div class="eyebrow">Sesi Berikutnya · Pertemuan 11–12</div>
+  <h1>Iklan Sudah<br>Jalan.<br><em>Sekarang Kita<br>Baca Datanya.</em></h1>
+  <div class="desc" style="max-width:500px;margin-inline:auto;margin-bottom:32px;">
+    A/B Testing, membaca dashboard performa, dan optimasi campaign yang underperform. Pastikan campaign sudah running sebelum pertemuan berikutnya!
+  </div>
+  <div class="meta-tags">
+    <div class="tag">📊 Dashboard Analysis</div>
+    <div class="tag">🧪 A/B Testing</div>
+    <div class="tag">⚡ TikTok Ads</div>
+    <div class="tag">🔧 Optimization</div>
+  </div>
+</div>
+
+</div><!-- /slides -->
+
+<script>
+let cur = 0, tot = 16;
+const slides = document.querySelectorAll('.slide');
+function go(d) {
+  slides[cur].classList.remove('active');
+  cur = Math.max(0, Math.min(tot-1, cur+d));
+  slides[cur].classList.add('active');
+  document.getElementById('ctr').textContent = (cur+1)+' / '+tot;
+  document.getElementById('prog').style.width = ((cur+1)/tot*100)+'%';
+  window.scrollTo(0,0);
+}
+document.addEventListener('keydown', e => {
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') go(-1);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --mdh-dark:   #3B3A39;
+  --mdh-blush:  #EDD7D2;
+  --mdh-terra:  #D8A299;
+  --mdh-gold:   #CBB279;
+  --mdh-rose:   #C4907F;
+  --mdh-cream:  #FAF7F4;
+  --mdh-warm:   #F5EDE8;
+  --mdh-mid:    #8A8785;
+  --mdh-border: #E0D8D5;
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+
+  h1, h2, h3 { font-family: var(--font-playfair), Georgia, serif; }
+
+  ::selection {
+    background: var(--mdh-gold);
+    color: var(--mdh-dark);
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--mdh-border); border-radius: 2px; }
+}
+
+@layer utilities {
+  .font-display { font-family: var(--font-playfair), Georgia, serif; }
+  .text-balance { text-wrap: balance; }
+}
